@@ -1,0 +1,6 @@
+log_level: debug
+listen_address: 0.0.0.0:9003
+serverservice:
+  endpoint: http://localhost:8000
+  disable_oauth: true
+  facility_code: dc13
