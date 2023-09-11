@@ -38,3 +38,11 @@ func (r *Routes) getBomInfoByAOCMacAddr(c *gin.Context) (int, *sservice.ServerRe
 	}
 	return http.StatusOK, resp
 }
+
+func (r *Routes) getBomInfoByBMCMacAddr(c *gin.Context) (int, *sservice.ServerResponse) {
+	_, resp, err := r.repository.GetBomInfoByBMCMacAddr(c.Request.Context(), c.Param("bmc_mac_address"))
+	if err != nil {
+		return http.StatusBadRequest, nil
+	}
+	return http.StatusOK, resp
+}

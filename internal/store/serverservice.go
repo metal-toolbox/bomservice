@@ -120,3 +120,8 @@ func (s *Serverservice) BillOfMaterialsBatchUpload(ctx context.Context, boms []s
 func (s *Serverservice) GetBomInfoByAOCMacAddr(ctx context.Context, macAddr string) (*sservice.Bom, *sservice.ServerResponse, error) {
 	return s.client.GetBomInfoByAOCMacAddr(ctx, macAddr)
 }
+
+// GetBomInfoByBMCMacAddr will return the bom info object by the bmc mac address.
+func (s *Serverservice) GetBomInfoByBMCMacAddr(ctx context.Context, macAddr string) (*sservice.Bom, *sservice.ServerResponse, error) {
+	return s.client.GetBomInfoByBMCMacAddr(ctx, macAddr)
+}

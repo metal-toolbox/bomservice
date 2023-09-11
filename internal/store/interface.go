@@ -15,6 +15,9 @@ type Repository interface {
 	// GetBomInfoByAOCMacAddr gets bom object by AOCMacAddr.
 	GetBomInfoByAOCMacAddr(ctx context.Context, macAddr string) (*sservice.Bom, *sservice.ServerResponse, error)
 
+	// GetBomInfoByBMCMacAddr gets bom object by BMCMacAddr.
+	GetBomInfoByBMCMacAddr(ctx context.Context, macAddr string) (*sservice.Bom, *sservice.ServerResponse, error)
+
 	// BillOfMaterialsBatchUpload creates a bom on a server.
 	BillOfMaterialsBatchUpload(ctx context.Context, boms []sservice.Bom) (*sservice.ServerResponse, error)
 }

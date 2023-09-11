@@ -65,3 +65,19 @@ func (mr *MockRepositoryMockRecorder) GetBomInfoByAOCMacAddr(ctx, macAddr interf
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBomInfoByAOCMacAddr", reflect.TypeOf((*MockRepository)(nil).GetBomInfoByAOCMacAddr), ctx, macAddr)
 }
+
+// GetBomInfoByBMCMacAddr mocks base method.
+func (m *MockRepository) GetBomInfoByBMCMacAddr(ctx context.Context, macAddr string) (*serverservice.Bom, *serverservice.ServerResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetBomInfoByBMCMacAddr", ctx, macAddr)
+	ret0, _ := ret[0].(*serverservice.Bom)
+	ret1, _ := ret[1].(*serverservice.ServerResponse)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// GetBomInfoByBMCMacAddr indicates an expected call of GetBomInfoByBMCMacAddr.
+func (mr *MockRepositoryMockRecorder) GetBomInfoByBMCMacAddr(ctx, macAddr interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBomInfoByBMCMacAddr", reflect.TypeOf((*MockRepository)(nil).GetBomInfoByBMCMacAddr), ctx, macAddr)
+}

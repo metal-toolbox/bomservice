@@ -44,7 +44,7 @@ var timeFormat = "02/Jan/2006:15:04:05 -0700"
 func loggerMiddleware(logger logrus.FieldLogger, notLogged ...string) gin.HandlerFunc {
 	hostname, err := os.Hostname()
 	if err != nil {
-		hostname = "unknow"
+		hostname = "unknown"
 	}
 
 	var skip map[string]struct{}
