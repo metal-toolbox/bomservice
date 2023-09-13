@@ -204,3 +204,79 @@ func TestGetBomInfoByAocMacAddr(t *testing.T) {
 		})
 	}
 }
+
+func TestGetBomInfoByBmcMacAddr(t *testing.T) {
+	// mock repository
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	repository := mockstore.NewMockRepository(ctrl)
+	server, err := mockserver(t, logrus.New(), repository, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	validBom := &sservice.Bom{
+		SerialNum:     "test-serial-1",
+		AocMacAddress: "FakeAOC1,FakeAOC2",
+		BmcMacAddress: "FakeMac1,FakeMac2",
+		NumDefiPmi:    "FakeDEFI1",
+		NumDefPWD:     "FakeDEFPWD1",
+	}
+
+	testcases := []struct {
+		name           string
+		bmcMacAddr     string
+		mockStore      func(r *mockstore.MockRepository)
+		assertResponse func(t *testing.T, r *httptest.ResponseRecorder)
+	}{
+		{
+			"valid bmc mac address and it is in the DB",
+			"test-serial-1",
+			func(r *mockstore.MockRepository) {
+				r.EXPECT().
+					GetBomInfoByBMCMacAddr(
+						gomock.Any(),
+						gomock.Eq("test-serial-1"),
+					).
+					Return(validBom, &sservice.ServerResponse{
+						Record: validBom,
+					}, nil).
+					Times(1)
+			},
+			func(t *testing.T, r *httptest.ResponseRecorder) {
+				assert.Equal(t, http.StatusOK, r.Code)
+				var resp sservice.ServerResponse
+				err := json.Unmarshal(r.Body.Bytes(), &resp)
+				assert.NoError(t, err, "malformed response body")
+				jsonStr, err := json.Marshal(resp.Record)
+				assert.NoError(t, err, "malformed ServerResponse record")
+				var bom sservice.Bom
+				err = json.Unmarshal(jsonStr, &bom)
+				assert.NoError(t, err, "malformed ServerResponse record")
+				// not using assert.True in order to dump the value of 2 objects
+				if !reflect.DeepEqual(bom, *validBom) {
+					t.Errorf("HTTP receives %v, expects %v", resp.Record, validBom)
+				}
+			},
+		},
+	}
+
+	for _, tc := range testcases {
+		t.Run(tc.name, func(t *testing.T) {
+			if tc.mockStore != nil {
+				tc.mockStore(repository)
+			}
+			url := fmt.Sprintf("%v/%v", "/api/v1/bomservice/bmc-mac-address", tc.bmcMacAddr)
+			request, err := http.NewRequestWithContext(context.TODO(), http.MethodGet, url, nil)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			recorder := httptest.NewRecorder()
+			server.ServeHTTP(recorder, request)
+
+			tc.assertResponse(t, recorder)
+		})
+	}
+}

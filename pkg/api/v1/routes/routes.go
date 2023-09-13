@@ -124,6 +124,10 @@ func (r *Routes) Routes(g *gin.RouterGroup) {
 		bomService.GET("/aoc-mac-address/:aoc_mac_address",
 			r.composeAuthHandler(readScopes("aoc-mac-address")),
 			wrapAPICall(r.getBomInfoByAOCMacAddr))
+
+		bomService.GET("/bmc-mac-address/:bmc_mac_address",
+			r.composeAuthHandler(readScopes("bmc-mac-address")),
+			wrapAPICall(r.getBomInfoByBMCMacAddr))
 	}
 }
 
