@@ -27,9 +27,6 @@ var (
 	// ErrServerserviceConfig is returned when theres an error in loading serverservice configuration.
 	ErrServerserviceConfig = errors.New("Serverservice configuration error")
 
-	// ErrServerserviceQuery is returned when a serverservice query error was received.
-	ErrServerserviceQuery = errors.New("Serverservice query error")
-
 	// ErrServserviceAttribute is returned when a serverservice attribute does not contain the expected fields.
 	ErrServerserviceAttribute = errors.New("error in serverservice attribute")
 
