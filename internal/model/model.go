@@ -7,10 +7,10 @@ type AppKind string
 type LogLevel string
 
 const (
-	AppName string = "hollow-bomservice"
+	AppName string = "bomservice"
 
 	// AppKindServer identifies a hollow bomservice.
-	AppKindServer AppKind = "hollow-bomservice-server"
+	AppKindServer AppKind = "bomservice-server"
 
 	LogLevelInfo  LogLevel = "info"
 	LogLevelDebug LogLevel = "debug"
