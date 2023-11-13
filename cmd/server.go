@@ -7,10 +7,10 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/metal-toolbox/hollow-bomservice/internal/app"
-	"github.com/metal-toolbox/hollow-bomservice/internal/model"
-	"github.com/metal-toolbox/hollow-bomservice/internal/server"
-	"github.com/metal-toolbox/hollow-bomservice/internal/store"
+	"github.com/metal-toolbox/bomservice/internal/app"
+	"github.com/metal-toolbox/bomservice/internal/model"
+	"github.com/metal-toolbox/bomservice/internal/server"
+	"github.com/metal-toolbox/bomservice/internal/store"
 	"github.com/spf13/cobra"
 )
 
@@ -21,7 +21,7 @@ var (
 // install server command
 var cmdServer = &cobra.Command{
 	Use:   "server",
-	Short: "Run hollow bomservice server",
+	Short: "Run bomservice server",
 	Run: func(cmd *cobra.Command, args []string) {
 		app, termCh, err := app.New(model.AppKindServer, cfgFile, model.LogLevel(logLevel))
 		if err != nil {

@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/metal-toolbox/hollow-bomservice/pkg/api/v1/routes"
+	"github.com/metal-toolbox/bomservice/pkg/api/v1/routes"
 	sservice "go.hollow.sh/serverservice/pkg/api/v1"
 )
 
@@ -43,7 +43,6 @@ func (c *Client) postRawBytes(ctx context.Context, path string, body []byte) (*s
 
 func (c *Client) do(req *http.Request) (*sservice.ServerResponse, error) {
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("User-Agent", fmt.Sprintf("bom-service-client"))
 
 	if c.authToken != "" {
 		req.Header.Set("Authorization", fmt.Sprintf("bearer %s", c.authToken))

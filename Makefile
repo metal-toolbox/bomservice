@@ -1,5 +1,5 @@
 export DOCKER_BUILDKIT=1
-LDFLAG_LOCATION := github.com/metal-toolbox/hollow-bomservice/internal/version
+LDFLAG_LOCATION := github.com/metal-toolbox/bomservice/internal/version
 GIT_COMMIT  := $(shell git rev-parse --short HEAD)
 GIT_BRANCH  := $(shell git symbolic-ref -q --short HEAD)
 GIT_SUMMARY := $(shell git describe --tags --dirty --always)
@@ -7,8 +7,8 @@ VERSION     := $(shell git describe --tags 2> /dev/null)
 BUILD_DATE  := $(shell date +%s)
 GIT_COMMIT_FULL  := $(shell git rev-parse HEAD)
 GO_VERSION := $(shell expr `go version |cut -d ' ' -f3 |cut -d. -f2` \>= 16)
-DOCKER_IMAGE  := "ghcr.io/metal-toolbox/hollow-bomservice"
-REPO := "https://github.com/metal-toolbox/hollow-bomservice.git"
+DOCKER_IMAGE  := "ghcr.io/metal-toolbox/bomservice"
+REPO := "https://github.com/metal-toolbox/bomservice.git"
 
 .DEFAULT_GOAL := help
 
@@ -31,7 +31,7 @@ build-osx:
 ifeq ($(GO_VERSION), 0)
 	$(error build requies go version 1.17.n or higher)
 endif
-	  GOOS=darwin GOARCH=amd64 go build -o hollow-bomservice \
+	  GOOS=darwin GOARCH=amd64 go build -o bomservice \
 	   -ldflags \
 		"-X $(LDFLAG_LOCATION).GitCommit=$(GIT_COMMIT) \
          -X $(LDFLAG_LOCATION).GitBranch=$(GIT_BRANCH) \
@@ -46,7 +46,7 @@ build-linux:
 ifeq ($(GO_VERSION), 0)
 	$(error build requies go version 1.20.x+ or higher)
 endif
-	GOOS=linux GOARCH=amd64 go build -o hollow-bomservice \
+	GOOS=linux GOARCH=amd64 go build -o bomservice \
 	   -ldflags \
 		"-X $(LDFLAG_LOCATION).GitCommit=$(GIT_COMMIT) \
          -X $(LDFLAG_LOCATION).GitBranch=$(GIT_BRANCH) \
@@ -55,7 +55,7 @@ endif
          -X $(LDFLAG_LOCATION).BuildDate=$(BUILD_DATE)"
 
 
-## build docker image and tag as ghcr.io/metal-toolbox/hollow-bomservice:latest
+## build docker image and tag as ghcr.io/metal-toolbox/bomservice:latest
 build-image: build-linux
 	@echo ">>>> NOTE: You may want to execute 'make build-image-nocache' depending on the Docker stages changed"
 	docker build --rm=true -f Dockerfile -t ${DOCKER_IMAGE}:latest  . \
@@ -65,9 +65,9 @@ build-image: build-linux
 
 ## build and push devel docker image to KIND image repo
 push-image-devel: build-image
-	docker tag ${DOCKER_IMAGE}:latest localhost:5001/hollow-bomservice:latest
-	docker push localhost:5001/hollow-bomservice:latest
-	kind load docker-image localhost:5001/hollow-bomservice:latest
+	docker tag ${DOCKER_IMAGE}:latest localhost:5001/bomservice:latest
+	docker push localhost:5001/bomservice:latest
+	kind load docker-image localhost:5001/bomservice:latest
 
 ## push docker image
 push-image:

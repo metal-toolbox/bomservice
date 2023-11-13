@@ -7,7 +7,7 @@ import (
 
 	"github.com/coreos/go-oidc"
 	"github.com/hashicorp/go-retryablehttp"
-	"github.com/metal-toolbox/hollow-bomservice/internal/app"
+	"github.com/metal-toolbox/bomservice/internal/app"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/oauth2"
@@ -75,7 +75,7 @@ func newClientWithOAuth(ctx context.Context, cfg *app.ServerserviceOptions, logg
 		return nil, err
 	}
 
-	clientID := "hollow-bomservice-api"
+	clientID := "bomservice-api"
 
 	if cfg.OidcClientID != "" {
 		clientID = cfg.OidcClientID
