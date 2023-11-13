@@ -3,7 +3,7 @@ package store
 import (
 	"context"
 
-	"github.com/metal-toolbox/hollow-bomservice/internal/app"
+	"github.com/metal-toolbox/bomservice/internal/app"
 	sservice "go.hollow.sh/serverservice/pkg/api/v1"
 
 	"github.com/pkg/errors"
