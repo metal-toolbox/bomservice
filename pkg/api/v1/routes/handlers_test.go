@@ -13,8 +13,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
-	"github.com/metal-toolbox/hollow-bomservice/internal/store"
-	mockstore "github.com/metal-toolbox/hollow-bomservice/internal/store/mock"
+	"github.com/metal-toolbox/bomservice/internal/store"
+	mockstore "github.com/metal-toolbox/bomservice/internal/store/mock"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 	sservice "go.hollow.sh/serverservice/pkg/api/v1"

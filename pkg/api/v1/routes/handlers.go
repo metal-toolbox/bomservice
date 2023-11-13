@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/metal-toolbox/hollow-bomservice/internal/parse"
+	"github.com/metal-toolbox/bomservice/internal/parse"
 	"github.com/pkg/errors"
 	sservice "go.hollow.sh/serverservice/pkg/api/v1"
 )

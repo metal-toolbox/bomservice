@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/metal-toolbox/hollow-bomservice/internal/model"
+	"github.com/metal-toolbox/bomservice/internal/model"
 	"github.com/pkg/errors"
 	"go.hollow.sh/toolbox/ginjwt"
 )

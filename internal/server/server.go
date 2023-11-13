@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/metal-toolbox/hollow-bomservice/internal/store"
-	"github.com/metal-toolbox/hollow-bomservice/pkg/api/v1/routes"
+	"github.com/metal-toolbox/bomservice/internal/store"
+	"github.com/metal-toolbox/bomservice/pkg/api/v1/routes"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"go.hollow.sh/toolbox/ginjwt"

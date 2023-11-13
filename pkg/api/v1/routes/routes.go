@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/metal-toolbox/hollow-bomservice/internal/store"
+	"github.com/metal-toolbox/bomservice/internal/store"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	sservice "go.hollow.sh/serverservice/pkg/api/v1"

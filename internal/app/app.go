@@ -6,7 +6,7 @@ import (
 	"syscall"
 
 	runtime "github.com/banzaicloud/logrus-runtime-formatter"
-	"github.com/metal-toolbox/hollow-bomservice/internal/model"
+	"github.com/metal-toolbox/bomservice/internal/model"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
@@ -16,7 +16,7 @@ import (
 type App struct {
 	// Viper loads configuration parameters.
 	v *viper.Viper
-	// The kind of application - server/hollow-bomservice-server
+	// The kind of application - server/bomservice-server
 	AppKind model.AppKind
 	// Flasher configuration.
 	Config *Configuration
@@ -24,7 +24,7 @@ type App struct {
 	Logger *logrus.Logger
 }
 
-// New returns returns a new instance of the hollow-bomservice app
+// New returns returns a new instance of the bomservice app
 func New(appKind model.AppKind, cfgFile string, loglevel model.LogLevel) (*App, <-chan os.Signal, error) {
 	app := &App{
 		v:       viper.New(),
