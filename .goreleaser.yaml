@@ -1,4 +1,4 @@
-project_name: hollow-bomservice
+project_name: bomservice
 before:
   hooks:
     - go mod tidy
@@ -11,11 +11,11 @@ builds:
       - linux
       - darwin
     ldflags:
-      - -X "github.com/metal-toolbox/hollow-bomservice/internal/version.AppVersion={{ .Version }}"
-        -X "github.com/metal-toolbox/hollow-bomservice/internal/version.GoVersion={{ .Env.GOVERSION }}"
-        -X "github.com/metal-toolbox/hollow-bomservice/internal/version.GitCommit={{ .Commit }}"
-        -X "github.com/metal-toolbox/hollow-bomservice/internal/version.GitBranch={{ .Branch }}"
-        -X "github.com/metal-toolbox/hollow-bomservice/internal/version.BuildDate={{ .Date }}"
+      - -X "github.com/metal-toolbox/bomservice/internal/version.AppVersion={{ .Version }}"
+        -X "github.com/metal-toolbox/bomservice/internal/version.GoVersion={{ .Env.GOVERSION }}"
+        -X "github.com/metal-toolbox/bomservice/internal/version.GitCommit={{ .Commit }}"
+        -X "github.com/metal-toolbox/bomservice/internal/version.GitBranch={{ .Branch }}"
+        -X "github.com/metal-toolbox/bomservice/internal/version.BuildDate={{ .Date }}"
 
 archives:
   - id: go
