@@ -1,6 +1,6 @@
 module github.com/metal-toolbox/bomservice
 
-go 1.21.0
+go 1.22.0
 
 require (
 	github.com/banzaicloud/logrus-runtime-formatter v0.0.0-20190729070250-5ae5475bae5e
