@@ -15,6 +15,7 @@ require (
 	github.com/spf13/viper v1.18.2
 	github.com/stretchr/testify v1.8.4
 	github.com/tealeg/xlsx v1.0.5
+	github.com/tealeg/xlsx/v3 v3.3.5
 	go.hollow.sh/serverservice v0.16.2
 	go.hollow.sh/toolbox v0.6.2
 	golang.org/x/oauth2 v0.17.0
