@@ -12,8 +12,7 @@ import (
 )
 
 var (
-	apiLatencySeconds    *prometheus.HistogramVec
-	dependencyErrorCount *prometheus.CounterVec
+	apiLatencySeconds *prometheus.HistogramVec
 )
 
 func init() {
@@ -49,12 +48,6 @@ func ListenAndServe() {
 			log.Println(err)
 		}
 	}()
-}
-
-// DependencyError provides a convenience method to hide some prometheus implementation
-// details.
-func DependencyError(name, operation string) {
-	dependencyErrorCount.WithLabelValues(name, operation).Inc()
 }
 
 // APICallEpilog observes the results and latency of an API call
