@@ -16,6 +16,7 @@ const (
 	aocFieldName  string = "MAC-AOC-ADDRESS"
 	bmcFieldName  string = "MAC-ADDRESS"
 	ipmiFieldName string = "NUM-DEFIPMI"
+	//nolint:gosec // it's not a credential!
 	ipwdFieldName string = "NUM-DEFPWD"
 )
 
@@ -34,6 +35,8 @@ func newCategoryColNum() *categoryColNum {
 }
 
 // ParseXlsxFile is the helper function to parse xlsx to boms.
+//
+//nolint:gocyclo,revive // this is inherently cyclomatic and yes, the name stutters
 func ParseXlsxFile(fileBytes []byte) ([]sservice.Bom, error) {
 	file, err := xlsx.OpenBinary(fileBytes)
 	if err != nil {
@@ -70,7 +73,7 @@ func ParseXlsxFile(fileBytes []byte) ([]sservice.Bom, error) {
 			cells := row.Cells
 			serialNum := cells[categoryCol.serialNumCol].Value
 
-			if len(serialNum) == 0 {
+			if serialNum == "" {
 				return nil, errors.New("empty serial number")
 			}
 
@@ -83,7 +86,7 @@ func ParseXlsxFile(fileBytes []byte) ([]sservice.Bom, error) {
 			switch cells[categoryCol.subItemCol].Value {
 			case aocFieldName:
 				aocMacAddress := cells[categoryCol.subSerialCol].Value
-				if len(aocMacAddress) == 0 {
+				if aocMacAddress == "" {
 					return nil, errors.New("empty aoc mac address")
 				}
 
@@ -94,7 +97,7 @@ func ParseXlsxFile(fileBytes []byte) ([]sservice.Bom, error) {
 				bom.AocMacAddress += aocMacAddress
 			case bmcFieldName:
 				bmcMacAddress := cells[categoryCol.subSerialCol].Value
-				if len(bmcMacAddress) == 0 {
+				if bmcMacAddress == "" {
 					return nil, errors.New("empty bmc mac address")
 				}
 
@@ -111,7 +114,7 @@ func ParseXlsxFile(fileBytes []byte) ([]sservice.Bom, error) {
 		}
 	}
 
-	var retBoms []sservice.Bom
+	retBoms := make([]sservice.Bom, 0, len(bomsMap))
 	for _, bom := range bomsMap {
 		retBoms = append(retBoms, *bom)
 	}
