@@ -26,23 +26,8 @@ gen-store-mock:
 	go install github.com/golang/mock/mockgen@v1.6.0
 	mockgen -package=mock -source=internal/store/interface.go > internal/store/mock/mock.go
 
-## build osx bin
-build-osx:
-ifeq ($(GO_VERSION), 0)
-	$(error build requies go version 1.17.n or higher)
-endif
-	  GOOS=darwin GOARCH=amd64 go build -o bomservice \
-	   -ldflags \
-		"-X $(LDFLAG_LOCATION).GitCommit=$(GIT_COMMIT) \
-         -X $(LDFLAG_LOCATION).GitBranch=$(GIT_BRANCH) \
-         -X $(LDFLAG_LOCATION).GitSummary=$(GIT_SUMMARY) \
-         -X $(LDFLAG_LOCATION).AppVersion=$(VERSION) \
-         -X $(LDFLAG_LOCATION).BuildDate=$(BUILD_DATE)"
-
-
-
 ## Build linux bin
-build-linux:
+build:
 ifeq ($(GO_VERSION), 0)
 	$(error build requies go version 1.20.x+ or higher)
 endif
@@ -56,7 +41,7 @@ endif
 
 
 ## build docker image and tag as ghcr.io/metal-toolbox/bomservice:latest
-build-image: build-linux
+build-image: build
 	@echo ">>>> NOTE: You may want to execute 'make build-image-nocache' depending on the Docker stages changed"
 	docker build --rm=true -f Dockerfile -t ${DOCKER_IMAGE}:latest  . \
 							 --label org.label-schema.schema-version=1.0 \

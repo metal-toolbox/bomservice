@@ -24,6 +24,8 @@ func (e RequestError) Error() string {
 }
 
 // ClientError is returned when invalid arguments are provided to the client
+//
+//nolint:revive // yeah I know
 type ClientError struct {
 	Message string
 }
