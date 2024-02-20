@@ -43,15 +43,15 @@ jobs:
         with:
            context: .
            push: false
-           tags: ghcr.io/metal-toolbox/fleet-rest-skeleton:latest
+           tags: ghcr.io/metal-toolbox/bomservice:latest
            file: Dockerfile
 
       - name: Scan image
         id: scan-image
         uses: anchore/scan-action@v3
         with:
-          image: ghcr.io/metal-toolbox/fleet-rest-skeleton:latest
-          acs-report-enable: true
+          image: ghcr.io/metal-toolbox/bomservice:latest
+          # XXX: this generates a warning => acs-report-enable: true
           # TODO(joel): Fail build once we migrate off CentOS.
           fail-build: false
 
