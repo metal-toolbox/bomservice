@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/metal-toolbox/bomservice/internal/app"
+	"github.com/metal-toolbox/bomservice/internal/metrics"
 	"github.com/metal-toolbox/bomservice/internal/model"
 	"github.com/metal-toolbox/bomservice/internal/server"
 	"github.com/metal-toolbox/bomservice/internal/store"
@@ -48,6 +49,7 @@ var cmdServer = &cobra.Command{
 				app.Logger.Fatal(err)
 			}
 		}()
+		metrics.ListenAndServe()
 
 		// sit around for term signal
 		<-termCh

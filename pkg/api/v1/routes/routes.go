@@ -3,8 +3,10 @@ package routes
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/metal-toolbox/bomservice/internal/metrics"
 	"github.com/metal-toolbox/bomservice/internal/store"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
@@ -75,7 +77,10 @@ type apiHandler func(c *gin.Context) (int, *sservice.ServerResponse)
 // directly
 func wrapAPICall(fn apiHandler) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
+		endpoint := ctx.Request.URL.Path
+		start := time.Now()
 		responseCode, obj := fn(ctx)
+		metrics.APICallEpilog(start, endpoint, responseCode)
 		ctx.JSON(responseCode, obj)
 	}
 }
