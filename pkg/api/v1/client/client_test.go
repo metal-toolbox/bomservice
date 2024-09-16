@@ -27,10 +27,10 @@ import (
 	"github.com/golang/mock/gomock"
 	"github.com/metal-toolbox/bomservice/internal/server"
 	mockstore "github.com/metal-toolbox/bomservice/internal/store/mock"
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
+	"github.com/metal-toolbox/rivets/ginjwt"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
-	sservice "go.hollow.sh/serverservice/pkg/api/v1"
-	"go.hollow.sh/toolbox/ginjwt"
 	"gopkg.in/square/go-jose.v2"
 	"gopkg.in/square/go-jose.v2/jwt"
 )
@@ -153,14 +153,14 @@ func TestIntegrationUploadXlsxFile(t *testing.T) {
 		name                string
 		mockStore           func(r *mockstore.MockRepository)
 		filePath            string
-		expectResponse      *sservice.ServerResponse
+		expectResponse      *fleetdbapi.ServerResponse
 		expectError         bool
 		expectErrorContains string
 	}{
 		{
 			"valid response",
 			func(r *mockstore.MockRepository) {
-				var expectedboms []sservice.Bom = []sservice.Bom{
+				var expectedboms []fleetdbapi.Bom = []fleetdbapi.Bom{
 					{
 						SerialNum:     "test-serial-1",
 						AocMacAddress: "FakeAOC1,FakeAOC2",
@@ -175,12 +175,12 @@ func TestIntegrationUploadXlsxFile(t *testing.T) {
 						gomock.Eq(expectedboms),
 					).
 					Return(
-						&sservice.ServerResponse{},
+						&fleetdbapi.ServerResponse{},
 						nil).
 					Times(1)
 			},
 			"./../../../../internal/parse/testdata/test_valid_one_bom.xlsx",
-			&sservice.ServerResponse{},
+			&fleetdbapi.ServerResponse{},
 			false,
 			"",
 		},
@@ -188,7 +188,7 @@ func TestIntegrationUploadXlsxFile(t *testing.T) {
 			"Bad Request 400 response since serial number col is empty",
 			func(r *mockstore.MockRepository) {},
 			"./../../../../internal/parse/testdata/test_empty_serial_col.xlsx",
-			&sservice.ServerResponse{},
+			&fleetdbapi.ServerResponse{},
 			true,
 			"got bad request",
 		},
@@ -196,7 +196,7 @@ func TestIntegrationUploadXlsxFile(t *testing.T) {
 			"Bad Request 400 response since empty serial number",
 			func(r *mockstore.MockRepository) {},
 			"./../../../../internal/parse/testdata/test_empty_serial.xlsx",
-			&sservice.ServerResponse{},
+			&fleetdbapi.ServerResponse{},
 			true,
 			"got bad request",
 		},
@@ -204,7 +204,7 @@ func TestIntegrationUploadXlsxFile(t *testing.T) {
 			"Bad Request 400 response since empty bmc mac address",
 			func(r *mockstore.MockRepository) {},
 			"./../../../../internal/parse/testdata/test_empty_bmcMacAddress.xlsx",
-			&sservice.ServerResponse{},
+			&fleetdbapi.ServerResponse{},
 			true,
 			"got bad request",
 		},
@@ -212,7 +212,7 @@ func TestIntegrationUploadXlsxFile(t *testing.T) {
 			"Bad Request 400 response since empty aoc mac address",
 			func(r *mockstore.MockRepository) {},
 			"./../../../../internal/parse/testdata/test_empty_aocMacAddress.xlsx",
-			&sservice.ServerResponse{},
+			&fleetdbapi.ServerResponse{},
 			true,
 			"got bad request",
 		},
@@ -276,14 +276,14 @@ func TestIntegrationGetByAOCMacAddr(t *testing.T) {
 		name                string
 		mockStore           func(r *mockstore.MockRepository)
 		aocMacAddr          string
-		expectResponse      *sservice.ServerResponse
+		expectResponse      *fleetdbapi.ServerResponse
 		expectError         bool
 		expectErrorContains string
 	}{
 		{
 			"valid response",
 			func(r *mockstore.MockRepository) {
-				fakeFoundBom := sservice.Bom{
+				fakeFoundBom := fleetdbapi.Bom{
 					SerialNum:     "test-serial-1",
 					AocMacAddress: "FakeAOC1,FakeAOC2",
 					BmcMacAddress: "FakeMac1,FakeMac2",
@@ -297,14 +297,14 @@ func TestIntegrationGetByAOCMacAddr(t *testing.T) {
 					).
 					Return(
 						&fakeFoundBom,
-						&sservice.ServerResponse{
+						&fleetdbapi.ServerResponse{
 							Record: fakeFoundBom,
 						},
 						nil).
 					Times(1)
 			},
 			"FakeAOC1",
-			&sservice.ServerResponse{Record: interface{}(
+			&fleetdbapi.ServerResponse{Record: interface{}(
 				map[string]interface{}{
 					"aoc_mac_address": "FakeAOC1,FakeAOC2",
 					"bmc_mac_address": "FakeMac1,FakeMac2",
@@ -319,7 +319,7 @@ func TestIntegrationGetByAOCMacAddr(t *testing.T) {
 			"Bad Request 400 response since serial number col is empty",
 			func(r *mockstore.MockRepository) {},
 			"./../../../../internal/parse/testdata/test_empty_serial_col.xlsx",
-			&sservice.ServerResponse{},
+			&fleetdbapi.ServerResponse{},
 			true,
 			"got bad request",
 		},
@@ -327,7 +327,7 @@ func TestIntegrationGetByAOCMacAddr(t *testing.T) {
 			"Bad Request 400 response since empty serial number",
 			func(r *mockstore.MockRepository) {},
 			"./../../../../internal/parse/testdata/test_empty_serial.xlsx",
-			&sservice.ServerResponse{},
+			&fleetdbapi.ServerResponse{},
 			true,
 			"got bad request",
 		},
@@ -335,7 +335,7 @@ func TestIntegrationGetByAOCMacAddr(t *testing.T) {
 			"Bad Request 400 response since empty bmc mac address",
 			func(r *mockstore.MockRepository) {},
 			"./../../../../internal/parse/testdata/test_empty_bmcMacAddress.xlsx",
-			&sservice.ServerResponse{},
+			&fleetdbapi.ServerResponse{},
 			true,
 			"got bad request",
 		},
@@ -343,7 +343,7 @@ func TestIntegrationGetByAOCMacAddr(t *testing.T) {
 			"Bad Request 400 response since empty aoc mac address",
 			func(r *mockstore.MockRepository) {},
 			"./../../../../internal/parse/testdata/test_empty_aocMacAddress.xlsx",
-			&sservice.ServerResponse{},
+			&fleetdbapi.ServerResponse{},
 			true,
 			"got bad request",
 		},

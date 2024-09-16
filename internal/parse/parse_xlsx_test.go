@@ -9,10 +9,10 @@ import (
 	"strings"
 	"testing"
 
-	sservice "go.hollow.sh/serverservice/pkg/api/v1"
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 )
 
-var testSerialNumBomInfo1 = sservice.Bom{
+var testSerialNumBomInfo1 = fleetdbapi.Bom{
 	SerialNum:     "test-serial-1",
 	AocMacAddress: "FakeAOC1,FakeAOC2",
 	BmcMacAddress: "FakeMac1,FakeMac2",
@@ -20,7 +20,7 @@ var testSerialNumBomInfo1 = sservice.Bom{
 	NumDefPWD:     "FakeDEFPWD1",
 }
 
-var testSerialNumBomInfo2 = sservice.Bom{
+var testSerialNumBomInfo2 = fleetdbapi.Bom{
 	SerialNum:     "test-serial-2",
 	AocMacAddress: "FakeAOC3,FakeAOC4",
 	BmcMacAddress: "FakeMac3,FakeMac4",
@@ -28,7 +28,7 @@ var testSerialNumBomInfo2 = sservice.Bom{
 	NumDefPWD:     "FakeDEFPWD2",
 }
 
-func sortSerialNumBomInfos(boms []sservice.Bom) {
+func sortSerialNumBomInfos(boms []fleetdbapi.Bom) {
 	sort.Slice(boms, func(i, j int) bool {
 		return boms[i].SerialNum < boms[j].SerialNum
 	})
@@ -40,7 +40,7 @@ func TestParseXlsxFile(t *testing.T) {
 		filePath                 string
 		expectedErr              bool
 		expectedErrMsg           string
-		expectedSerialNumBomInfo []sservice.Bom
+		expectedSerialNumBomInfo []fleetdbapi.Bom
 	}{
 		{
 			testName:                 "file missing serial number",
@@ -68,14 +68,14 @@ func TestParseXlsxFile(t *testing.T) {
 			filePath:                 "./testdata/test_valid_one_bom.xlsx",
 			expectedErr:              false,
 			expectedErrMsg:           "",
-			expectedSerialNumBomInfo: []sservice.Bom{testSerialNumBomInfo1},
+			expectedSerialNumBomInfo: []fleetdbapi.Bom{testSerialNumBomInfo1},
 		},
 		{
 			testName:                 "valid file for multiple bom",
 			filePath:                 "./testdata/test_valid_multiple_boms.xlsx",
 			expectedErr:              false,
 			expectedErrMsg:           "",
-			expectedSerialNumBomInfo: []sservice.Bom{testSerialNumBomInfo1, testSerialNumBomInfo2},
+			expectedSerialNumBomInfo: []fleetdbapi.Bom{testSerialNumBomInfo1, testSerialNumBomInfo2},
 		},
 		{
 			testName:                 "file missing SERIALNUM col",

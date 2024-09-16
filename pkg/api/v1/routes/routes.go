@@ -8,10 +8,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/metal-toolbox/bomservice/internal/metrics"
 	"github.com/metal-toolbox/bomservice/internal/store"
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
+	"github.com/metal-toolbox/rivets/ginjwt"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
-	sservice "go.hollow.sh/serverservice/pkg/api/v1"
-	"go.hollow.sh/toolbox/ginjwt"
 )
 
 const (
@@ -70,7 +70,7 @@ func WithAuthMiddleware(authMW *ginjwt.Middleware) Option {
 }
 
 // apiHandler is a function that performs real work for the bomservice API
-type apiHandler func(c *gin.Context) (int, *sservice.ServerResponse)
+type apiHandler func(c *gin.Context) (int, *fleetdbapi.ServerResponse)
 
 // wrapAPICall wraps a bomservice routine that does work with some prometheus
 // metrics collection and returns a gin.HandlerFunc so the middleware can execute

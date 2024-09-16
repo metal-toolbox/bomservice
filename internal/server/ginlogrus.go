@@ -32,8 +32,8 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/metal-toolbox/rivets/ginjwt"
 	"github.com/sirupsen/logrus"
-	"go.hollow.sh/toolbox/ginjwt"
 )
 
 var timeFormat = "02/Jan/2006:15:04:05 -0700"

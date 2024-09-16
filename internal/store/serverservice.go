@@ -13,13 +13,13 @@ import (
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"
 
-	sservice "go.hollow.sh/serverservice/pkg/api/v1"
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 )
 
 // Serverservice implements the Repository interface to have server bom objects stored as server attributes.
 type Serverservice struct {
 	config *app.ServerserviceOptions
-	client *sservice.Client
+	client *fleetdbapi.Client
 	logger *logrus.Logger
 }
 
@@ -37,7 +37,7 @@ var (
 func newServerserviceStore(ctx context.Context, config *app.ServerserviceOptions, logger *logrus.Logger) (Repository, error) {
 	s := &Serverservice{logger: logger, config: config}
 
-	var client *sservice.Client
+	var client *fleetdbapi.Client
 	var err error
 
 	if !config.DisableOAuth {
@@ -46,7 +46,7 @@ func newServerserviceStore(ctx context.Context, config *app.ServerserviceOptions
 			return nil, err
 		}
 	} else {
-		client, err = sservice.NewClientWithToken("fake", config.Endpoint, nil)
+		client, err = fleetdbapi.NewClientWithToken("fake", config.Endpoint, nil)
 		if err != nil {
 			return nil, err
 		}
@@ -58,7 +58,7 @@ func newServerserviceStore(ctx context.Context, config *app.ServerserviceOptions
 }
 
 // returns a serverservice retryable http client with Otel and Oauth wrapped in
-func newClientWithOAuth(ctx context.Context, cfg *app.ServerserviceOptions, logger *logrus.Logger) (*sservice.Client, error) {
+func newClientWithOAuth(ctx context.Context, cfg *app.ServerserviceOptions, logger *logrus.Logger) (*fleetdbapi.Client, error) {
 	// init retryable http client
 	retryableClient := retryablehttp.NewClient()
 
@@ -101,7 +101,7 @@ func newClientWithOAuth(ctx context.Context, cfg *app.ServerserviceOptions, logg
 	httpClient := retryableClient.StandardClient()
 	httpClient.Timeout = connectionTimeout
 
-	return sservice.NewClientWithToken(
+	return fleetdbapi.NewClientWithToken(
 		cfg.OidcClientSecret,
 		cfg.Endpoint,
 		httpClient,
@@ -109,16 +109,16 @@ func newClientWithOAuth(ctx context.Context, cfg *app.ServerserviceOptions, logg
 }
 
 // BillOfMaterialsBatchUpload will attempt to write multiple boms to database.
-func (s *Serverservice) BillOfMaterialsBatchUpload(ctx context.Context, boms []sservice.Bom) (*sservice.ServerResponse, error) {
+func (s *Serverservice) BillOfMaterialsBatchUpload(ctx context.Context, boms []fleetdbapi.Bom) (*fleetdbapi.ServerResponse, error) {
 	return s.client.BillOfMaterialsBatchUpload(ctx, boms)
 }
 
 // GetBomInfoByAOCMacAddr will return the bom info object by the aoc mac address.
-func (s *Serverservice) GetBomInfoByAOCMacAddr(ctx context.Context, macAddr string) (*sservice.Bom, *sservice.ServerResponse, error) {
+func (s *Serverservice) GetBomInfoByAOCMacAddr(ctx context.Context, macAddr string) (*fleetdbapi.Bom, *fleetdbapi.ServerResponse, error) {
 	return s.client.GetBomInfoByAOCMacAddr(ctx, macAddr)
 }
 
 // GetBomInfoByBMCMacAddr will return the bom info object by the bmc mac address.
-func (s *Serverservice) GetBomInfoByBMCMacAddr(ctx context.Context, macAddr string) (*sservice.Bom, *sservice.ServerResponse, error) {
+func (s *Serverservice) GetBomInfoByBMCMacAddr(ctx context.Context, macAddr string) (*fleetdbapi.Bom, *fleetdbapi.ServerResponse, error) {
 	return s.client.GetBomInfoByBMCMacAddr(ctx, macAddr)
 }

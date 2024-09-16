@@ -14,7 +14,7 @@ REPO := "https://github.com/metal-toolbox/bomservice.git"
 
 ## lint
 lint:
-	golangci-lint run
+	golangci-lint run --config .golangci.yml --fix
 
 ## Go test
 test: lint

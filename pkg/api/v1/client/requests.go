@@ -10,10 +10,10 @@ import (
 	"net/url"
 
 	"github.com/metal-toolbox/bomservice/pkg/api/v1/routes"
-	sservice "go.hollow.sh/serverservice/pkg/api/v1"
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 )
 
-func (c *Client) get(ctx context.Context, path string) (*sservice.ServerResponse, error) {
+func (c *Client) get(ctx context.Context, path string) (*fleetdbapi.ServerResponse, error) {
 	requestURL, err := url.Parse(fmt.Sprintf("%s%s/%s", c.serverAddress, routes.PathPrefix, path))
 	if err != nil {
 		return nil, Error{Cause: err.Error()}
@@ -27,7 +27,7 @@ func (c *Client) get(ctx context.Context, path string) (*sservice.ServerResponse
 	return c.do(req)
 }
 
-func (c *Client) postRawBytes(ctx context.Context, path string, body []byte) (*sservice.ServerResponse, error) {
+func (c *Client) postRawBytes(ctx context.Context, path string, body []byte) (*fleetdbapi.ServerResponse, error) {
 	requestURL, err := url.Parse(fmt.Sprintf("%s%s/%s", c.serverAddress, routes.PathPrefix, path))
 	if err != nil {
 		return nil, Error{Cause: err.Error()}
@@ -41,7 +41,7 @@ func (c *Client) postRawBytes(ctx context.Context, path string, body []byte) (*s
 	return c.do(req)
 }
 
-func (c *Client) do(req *http.Request) (*sservice.ServerResponse, error) {
+func (c *Client) do(req *http.Request) (*fleetdbapi.ServerResponse, error) {
 	req.Header.Set("Content-Type", "application/json")
 
 	if c.authToken != "" {
@@ -70,7 +70,7 @@ func (c *Client) do(req *http.Request) (*sservice.ServerResponse, error) {
 		}
 	}
 
-	serverResponse := &sservice.ServerResponse{}
+	serverResponse := &fleetdbapi.ServerResponse{}
 
 	if err := json.Unmarshal(data, &serverResponse); err != nil {
 		return nil, RequestError{
