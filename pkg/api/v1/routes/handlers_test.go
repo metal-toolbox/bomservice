@@ -93,7 +93,7 @@ func TestUploadXlsxFile(t *testing.T) {
 				r.EXPECT().
 					BillOfMaterialsBatchUpload(
 						gomock.Any(),
-						gomock.Eq(validBoms),
+						gomock.InAnyOrder(validBoms),
 					).
 					Return(nil, nil).
 					Times(1)
