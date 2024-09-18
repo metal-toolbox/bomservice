@@ -15,10 +15,10 @@ import (
 	"github.com/golang/mock/gomock"
 	"github.com/metal-toolbox/bomservice/internal/store"
 	mockstore "github.com/metal-toolbox/bomservice/internal/store/mock"
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
+	"github.com/metal-toolbox/rivets/events"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
-	sservice "go.hollow.sh/serverservice/pkg/api/v1"
-	"go.hollow.sh/toolbox/events"
 )
 
 // TODO: add robust test cases to test handlers.
@@ -63,7 +63,7 @@ func TestUploadXlsxFile(t *testing.T) {
 	}
 
 	validBoms :=
-		[]sservice.Bom{
+		[]fleetdbapi.Bom{
 			{
 				SerialNum:     "test-serial-1",
 				AocMacAddress: "FakeAOC1,FakeAOC2",
@@ -93,7 +93,7 @@ func TestUploadXlsxFile(t *testing.T) {
 				r.EXPECT().
 					BillOfMaterialsBatchUpload(
 						gomock.Any(),
-						gomock.Eq(validBoms),
+						gomock.InAnyOrder(validBoms),
 					).
 					Return(nil, nil).
 					Times(1)
@@ -140,7 +140,7 @@ func TestGetBomInfoByAocMacAddr(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	validBom := &sservice.Bom{
+	validBom := &fleetdbapi.Bom{
 		SerialNum:     "test-serial-1",
 		AocMacAddress: "FakeAOC1,FakeAOC2",
 		BmcMacAddress: "FakeMac1,FakeMac2",
@@ -163,19 +163,19 @@ func TestGetBomInfoByAocMacAddr(t *testing.T) {
 						gomock.Any(),
 						gomock.Eq("test-serial-1"),
 					).
-					Return(validBom, &sservice.ServerResponse{
+					Return(validBom, &fleetdbapi.ServerResponse{
 						Record: validBom,
 					}, nil).
 					Times(1)
 			},
 			func(t *testing.T, r *httptest.ResponseRecorder) {
 				assert.Equal(t, http.StatusOK, r.Code)
-				var resp sservice.ServerResponse
+				var resp fleetdbapi.ServerResponse
 				err := json.Unmarshal(r.Body.Bytes(), &resp)
 				assert.NoError(t, err, "malformed response body")
 				jsonStr, err := json.Marshal(resp.Record)
 				assert.NoError(t, err, "malformed ServerResponse record")
-				var bom sservice.Bom
+				var bom fleetdbapi.Bom
 				err = json.Unmarshal(jsonStr, &bom)
 				assert.NoError(t, err, "malformed ServerResponse record")
 				// not using assert.True in order to dump the value of 2 objects
@@ -216,7 +216,7 @@ func TestGetBomInfoByBmcMacAddr(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	validBom := &sservice.Bom{
+	validBom := &fleetdbapi.Bom{
 		SerialNum:     "test-serial-1",
 		AocMacAddress: "FakeAOC1,FakeAOC2",
 		BmcMacAddress: "FakeMac1,FakeMac2",
@@ -239,19 +239,19 @@ func TestGetBomInfoByBmcMacAddr(t *testing.T) {
 						gomock.Any(),
 						gomock.Eq("test-serial-1"),
 					).
-					Return(validBom, &sservice.ServerResponse{
+					Return(validBom, &fleetdbapi.ServerResponse{
 						Record: validBom,
 					}, nil).
 					Times(1)
 			},
 			func(t *testing.T, r *httptest.ResponseRecorder) {
 				assert.Equal(t, http.StatusOK, r.Code)
-				var resp sservice.ServerResponse
+				var resp fleetdbapi.ServerResponse
 				err := json.Unmarshal(r.Body.Bytes(), &resp)
 				assert.NoError(t, err, "malformed response body")
 				jsonStr, err := json.Marshal(resp.Record)
 				assert.NoError(t, err, "malformed ServerResponse record")
-				var bom sservice.Bom
+				var bom fleetdbapi.Bom
 				err = json.Unmarshal(jsonStr, &bom)
 				assert.NoError(t, err, "malformed ServerResponse record")
 				// not using assert.True in order to dump the value of 2 objects

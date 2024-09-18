@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	sservice "go.hollow.sh/serverservice/pkg/api/v1"
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 )
 
 const (
@@ -74,17 +74,17 @@ func WithAuthToken(authToken string) Option {
 	}
 }
 
-func (c *Client) XlsxFileUpload(ctx context.Context, fileBytes []byte) (*sservice.ServerResponse, error) {
+func (c *Client) XlsxFileUpload(ctx context.Context, fileBytes []byte) (*fleetdbapi.ServerResponse, error) {
 	path := fmt.Sprintf("%s/%s", bomInfoEndpoint, uploadFileEndpoint)
 	return c.postRawBytes(ctx, path, fileBytes)
 }
 
-func (c *Client) GetBomInfoByAOCMacAddr(ctx context.Context, aocMacAddr string) (*sservice.ServerResponse, error) {
+func (c *Client) GetBomInfoByAOCMacAddr(ctx context.Context, aocMacAddr string) (*fleetdbapi.ServerResponse, error) {
 	path := fmt.Sprintf("%s/%s/%s", bomInfoEndpoint, bomByMacAOCAddressEndpoint, aocMacAddr)
 	return c.get(ctx, path)
 }
 
-func (c *Client) GetBomInfoByBMCMacAddr(ctx context.Context, bmcMacAddr string) (*sservice.ServerResponse, error) {
+func (c *Client) GetBomInfoByBMCMacAddr(ctx context.Context, bmcMacAddr string) (*fleetdbapi.ServerResponse, error) {
 	path := fmt.Sprintf("servers/%s/condition/%s", bomByMacBMCAddressEndpoint, bmcMacAddr)
 	return c.get(ctx, path)
 }

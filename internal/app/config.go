@@ -6,8 +6,8 @@ import (
 	"strings"
 
 	"github.com/metal-toolbox/bomservice/internal/model"
+	"github.com/metal-toolbox/rivets/ginjwt"
 	"github.com/pkg/errors"
-	"go.hollow.sh/toolbox/ginjwt"
 )
 
 var (

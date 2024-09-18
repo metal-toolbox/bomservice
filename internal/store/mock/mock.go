@@ -9,7 +9,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 )
 
 // MockRepository is a mock of Repository interface.
@@ -36,10 +36,10 @@ func (m *MockRepository) EXPECT() *MockRepositoryMockRecorder {
 }
 
 // BillOfMaterialsBatchUpload mocks base method.
-func (m *MockRepository) BillOfMaterialsBatchUpload(ctx context.Context, boms []serverservice.Bom) (*serverservice.ServerResponse, error) {
+func (m *MockRepository) BillOfMaterialsBatchUpload(ctx context.Context, boms []fleetdbapi.Bom) (*fleetdbapi.ServerResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BillOfMaterialsBatchUpload", ctx, boms)
-	ret0, _ := ret[0].(*serverservice.ServerResponse)
+	ret0, _ := ret[0].(*fleetdbapi.ServerResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -51,11 +51,11 @@ func (mr *MockRepositoryMockRecorder) BillOfMaterialsBatchUpload(ctx, boms inter
 }
 
 // GetBomInfoByAOCMacAddr mocks base method.
-func (m *MockRepository) GetBomInfoByAOCMacAddr(ctx context.Context, macAddr string) (*serverservice.Bom, *serverservice.ServerResponse, error) {
+func (m *MockRepository) GetBomInfoByAOCMacAddr(ctx context.Context, macAddr string) (*fleetdbapi.Bom, *fleetdbapi.ServerResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetBomInfoByAOCMacAddr", ctx, macAddr)
-	ret0, _ := ret[0].(*serverservice.Bom)
-	ret1, _ := ret[1].(*serverservice.ServerResponse)
+	ret0, _ := ret[0].(*fleetdbapi.Bom)
+	ret1, _ := ret[1].(*fleetdbapi.ServerResponse)
 	ret2, _ := ret[2].(error)
 	return ret0, ret1, ret2
 }
@@ -67,11 +67,11 @@ func (mr *MockRepositoryMockRecorder) GetBomInfoByAOCMacAddr(ctx, macAddr interf
 }
 
 // GetBomInfoByBMCMacAddr mocks base method.
-func (m *MockRepository) GetBomInfoByBMCMacAddr(ctx context.Context, macAddr string) (*serverservice.Bom, *serverservice.ServerResponse, error) {
+func (m *MockRepository) GetBomInfoByBMCMacAddr(ctx context.Context, macAddr string) (*fleetdbapi.Bom, *fleetdbapi.ServerResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetBomInfoByBMCMacAddr", ctx, macAddr)
-	ret0, _ := ret[0].(*serverservice.Bom)
-	ret1, _ := ret[1].(*serverservice.ServerResponse)
+	ret0, _ := ret[0].(*fleetdbapi.Bom)
+	ret1, _ := ret[1].(*fleetdbapi.ServerResponse)
 	ret2, _ := ret[2].(error)
 	return ret0, ret1, ret2
 }

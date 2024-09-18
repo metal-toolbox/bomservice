@@ -4,7 +4,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/tealeg/xlsx"
 
-	sservice "go.hollow.sh/serverservice/pkg/api/v1"
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 )
 
 const (
@@ -37,13 +37,13 @@ func newCategoryColNum() *categoryColNum {
 // ParseXlsxFile is the helper function to parse xlsx to boms.
 //
 //nolint:gocyclo,revive // this is inherently cyclomatic and yes, the name stutters
-func ParseXlsxFile(fileBytes []byte) ([]sservice.Bom, error) {
+func ParseXlsxFile(fileBytes []byte) ([]fleetdbapi.Bom, error) {
 	file, err := xlsx.OpenBinary(fileBytes)
 	if err != nil {
 		return nil, errors.New("failed to open the file")
 	}
 
-	bomsMap := make(map[string]*sservice.Bom)
+	bomsMap := make(map[string]*fleetdbapi.Bom)
 
 	for _, sheet := range file.Sheets {
 		var categoryCol *categoryColNum
@@ -79,7 +79,7 @@ func ParseXlsxFile(fileBytes []byte) ([]sservice.Bom, error) {
 
 			bom, ok := bomsMap[serialNum]
 			if !ok {
-				bom = &sservice.Bom{SerialNum: serialNum}
+				bom = &fleetdbapi.Bom{SerialNum: serialNum}
 				bomsMap[serialNum] = bom
 			}
 
@@ -90,7 +90,7 @@ func ParseXlsxFile(fileBytes []byte) ([]sservice.Bom, error) {
 					return nil, errors.New("empty aoc mac address")
 				}
 
-				if len(bom.AocMacAddress) > 0 {
+				if bom.AocMacAddress != "" {
 					bom.AocMacAddress += ","
 				}
 
@@ -101,7 +101,7 @@ func ParseXlsxFile(fileBytes []byte) ([]sservice.Bom, error) {
 					return nil, errors.New("empty bmc mac address")
 				}
 
-				if len(bom.BmcMacAddress) > 0 {
+				if bom.BmcMacAddress != "" {
 					bom.BmcMacAddress += ","
 				}
 
@@ -114,7 +114,7 @@ func ParseXlsxFile(fileBytes []byte) ([]sservice.Bom, error) {
 		}
 	}
 
-	retBoms := make([]sservice.Bom, 0, len(bomsMap))
+	retBoms := make([]fleetdbapi.Bom, 0, len(bomsMap))
 	for _, bom := range bomsMap {
 		retBoms = append(retBoms, *bom)
 	}

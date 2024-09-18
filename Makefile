@@ -14,7 +14,7 @@ REPO := "https://github.com/metal-toolbox/bomservice.git"
 
 ## lint
 lint:
-	golangci-lint run
+	golangci-lint run --config .golangci.yml --fix
 
 ## Go test
 test: lint
@@ -29,7 +29,7 @@ gen-store-mock:
 ## Build linux bin
 build:
 ifeq ($(GO_VERSION), 0)
-	$(error build requies go version 1.20.x+ or higher)
+	$(error build requies go version 1.22.x+ or higher)
 endif
 	GOOS=linux GOARCH=amd64 go build -o bomservice \
 	   -ldflags \

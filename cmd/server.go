@@ -23,7 +23,7 @@ var (
 var cmdServer = &cobra.Command{
 	Use:   "server",
 	Short: "Run bomservice server",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		app, termCh, err := app.New(model.AppKindServer, cfgFile, model.LogLevel(logLevel))
 		if err != nil {
 			log.Fatal(err)

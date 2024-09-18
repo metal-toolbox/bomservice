@@ -1,12 +1,11 @@
 # golangci.com configuration
 # https://github.com/golangci/golangci/wiki/Configuration
 service:
-  golangci-lint-version: 1.55.2 # use the fixed version to not introduce new linters unexpectedly
+  golangci-lint-version: 1.56.2 # use the fixed version to not introduce new linters unexpectedly
 
 linters-settings:
   govet:
     auto-fix: true
-    check-shadowing: true
     settings:
       printf:
         funcs:
@@ -47,6 +46,7 @@ linters-settings:
     extra-rules: true
   wsl:
     auto-fix: true
+shadow: true
 
 linters:
   enable:
@@ -75,14 +75,11 @@ linters:
   enable-all: false
   disable-all: true
 
-run:
-  #  build-tags:
-  skip-dirs:
-    - internal/fixtures
-  skip-files:
-    - "(.*/)*.*_test.go"
-
 issues:
+  exclude-files:
+    - "(.*/)*.*_test.go"
+  exclude-dirs:
+    - internal/fixtures
   exclude-rules:
     - linters:
         - gosec
