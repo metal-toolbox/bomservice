@@ -19,6 +19,7 @@ require (
 	github.com/spf13/viper v1.19.0
 	github.com/stretchr/testify v1.9.0
 	github.com/tealeg/xlsx v1.0.5
+	github.com/tealeg/xlsx/v3 v3.3.10
 	golang.org/x/oauth2 v0.21.0
 	gopkg.in/square/go-jose.v2 v2.6.0
 )
