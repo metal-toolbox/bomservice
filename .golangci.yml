@@ -1,7 +1,7 @@
 # golangci.com configuration
 # https://github.com/golangci/golangci/wiki/Configuration
 service:
-  golangci-lint-version: 1.56.2 # use the fixed version to not introduce new linters unexpectedly
+  # golangci-lint-version: 1.56.2 # use the fixed version to not introduce new linters unexpectedly
 
 linters-settings:
   govet:
@@ -65,7 +65,7 @@ linters:
     # additional linters
     - bodyclose
     - gocritic
-    - goerr113
+    - err113
     - goimports
     - revive
     - misspell
