@@ -48,7 +48,7 @@ jobs:
 
       - name: Scan image
         id: scan-image
-        uses: anchore/scan-action@v3
+        uses: anchore/scan-action@v6
         with:
           image: ghcr.io/metal-toolbox/bomservice:latest
           # XXX: this generates a warning => acs-report-enable: true
