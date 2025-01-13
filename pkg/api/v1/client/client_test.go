@@ -31,8 +31,8 @@ import (
 	"github.com/metal-toolbox/rivets/ginjwt"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
-	"gopkg.in/square/go-jose.v2"
-	"gopkg.in/square/go-jose.v2/jwt"
+	"gopkg.in/square/go-jose.v4"
+	"gopkg.in/square/go-jose.v4/jwt"
 )
 
 type integrationTester struct {
