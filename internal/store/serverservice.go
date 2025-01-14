@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/coreos/go-oidc"
+	"github.com/coreos/go-oidc/v3/oidc"
 	"github.com/hashicorp/go-retryablehttp"
 	"github.com/metal-toolbox/bomservice/internal/app"
 	"github.com/pkg/errors"
