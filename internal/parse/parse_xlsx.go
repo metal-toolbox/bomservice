@@ -2,7 +2,7 @@ package parse
 
 import (
 	"github.com/pkg/errors"
-	"github.com/tealeg/xlsx/v2"
+	"github.com/tealeg/xlsx/v3"
 
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 )
@@ -47,11 +47,13 @@ func ParseXlsxFile(fileBytes []byte) ([]fleetdbapi.Bom, error) {
 
 	for _, sheet := range file.Sheets {
 		var categoryCol *categoryColNum
-		for _, row := range sheet.Rows {
+
+		rowProcessor := func(row *xlsx.Row) error {
 			if categoryCol == nil {
 				categoryCol = newCategoryColNum()
 
-				for i, cell := range row.Cells {
+				cellProcessor := func(cell *xlsx.Cell) error {
+					i, _ := cell.GetCoordinates()
 					switch cell.Value {
 					case serialNumColName:
 						categoryCol.serialNumCol = i
@@ -60,21 +62,22 @@ func ParseXlsxFile(fileBytes []byte) ([]fleetdbapi.Bom, error) {
 					case subSerialColName:
 						categoryCol.subSerialCol = i
 					}
+					return nil
 				}
+				_ = row.ForEachCell(cellProcessor)
 
 				if categoryCol.serialNumCol == -1 || categoryCol.subItemCol == -1 || categoryCol.subSerialCol == -1 {
-					return nil, errors.Errorf("missing colomn, serial num %v, sub-item %v, sub-serial %v", categoryCol.serialNumCol, categoryCol.subItemCol, categoryCol.subSerialCol)
+					return errors.Errorf("missing colomn, serial num %v, sub-item %v, sub-serial %v", categoryCol.serialNumCol, categoryCol.subItemCol, categoryCol.subSerialCol)
 				}
 
-				continue
+				return nil
 			}
 
 			// There won't be any out of idex issue since any non-existing value will default to empty string.
-			cells := row.Cells
-			serialNum := cells[categoryCol.serialNumCol].Value
+			serialNum := row.GetCell(categoryCol.serialNumCol).Value
 
 			if serialNum == "" {
-				return nil, errors.New("empty serial number")
+				return errors.New("empty serial number")
 			}
 
 			bom, ok := bomsMap[serialNum]
@@ -83,11 +86,12 @@ func ParseXlsxFile(fileBytes []byte) ([]fleetdbapi.Bom, error) {
 				bomsMap[serialNum] = bom
 			}
 
-			switch cells[categoryCol.subItemCol].Value {
+			v := row.GetCell(categoryCol.subSerialCol).Value
+			switch row.GetCell(categoryCol.subItemCol).Value {
 			case aocFieldName:
-				aocMacAddress := cells[categoryCol.subSerialCol].Value
+				aocMacAddress := v
 				if aocMacAddress == "" {
-					return nil, errors.New("empty aoc mac address")
+					return errors.New("empty aoc mac address")
 				}
 
 				if bom.AocMacAddress != "" {
@@ -96,9 +100,9 @@ func ParseXlsxFile(fileBytes []byte) ([]fleetdbapi.Bom, error) {
 
 				bom.AocMacAddress += aocMacAddress
 			case bmcFieldName:
-				bmcMacAddress := cells[categoryCol.subSerialCol].Value
+				bmcMacAddress := v
 				if bmcMacAddress == "" {
-					return nil, errors.New("empty bmc mac address")
+					return errors.New("empty bmc mac address")
 				}
 
 				if bom.BmcMacAddress != "" {
@@ -107,10 +111,15 @@ func ParseXlsxFile(fileBytes []byte) ([]fleetdbapi.Bom, error) {
 
 				bom.BmcMacAddress += bmcMacAddress
 			case ipmiFieldName:
-				bom.NumDefiPmi = cells[categoryCol.subSerialCol].Value
+				bom.NumDefiPmi = v
 			case ipwdFieldName:
-				bom.NumDefPWD = cells[categoryCol.subSerialCol].Value
+				bom.NumDefPWD = v
 			}
+			return nil
+		}
+		err := sheet.ForEachRow(rowProcessor)
+		if err != nil {
+			return nil, err
 		}
 	}
 
