@@ -2,7 +2,7 @@ package parse
 
 import (
 	"github.com/pkg/errors"
-	"github.com/tealeg/xlsx"
+	"github.com/tealeg/xlsx/v2"
 
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 )
