@@ -2,7 +2,7 @@ module github.com/metal-toolbox/bomservice
 
 go 1.23
 
-toolchain go1.23.1
+toolchain go1.23.5
 
 require (
 	github.com/banzaicloud/logrus-runtime-formatter v0.0.0-20190729070250-5ae5475bae5e
@@ -103,7 +103,6 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
-	github.com/tealeg/xlsx/v2 v2.0.1 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.12 // indirect
 	github.com/volatiletech/inflect v0.0.1 // indirect
