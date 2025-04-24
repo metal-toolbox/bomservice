@@ -8,7 +8,7 @@ require (
 	github.com/banzaicloud/logrus-runtime-formatter v0.0.0-20190729070250-5ae5475bae5e
 	github.com/coreos/go-oidc/v3 v3.12.0
 	github.com/gin-gonic/gin v1.10.0
-	github.com/go-jose/go-jose v2.6.3+incompatible
+	github.com/go-jose/go-jose/v4 v4.0.5
 	github.com/golang/mock v1.6.0
 	github.com/hashicorp/go-retryablehttp v0.7.7
 	github.com/metal-toolbox/fleetdb v1.20.1
@@ -38,7 +38,6 @@ require (
 	github.com/fsnotify/fsnotify v1.8.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.6 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
-	github.com/go-jose/go-jose/v4 v4.0.5 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
