@@ -16,7 +16,7 @@ import (
 	"github.com/metal-toolbox/bomservice/internal/store"
 	mockstore "github.com/metal-toolbox/bomservice/internal/store/mock"
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
-	"github.com/metal-toolbox/rivets/events"
+	"github.com/metal-toolbox/rivets/v2/events"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 )
