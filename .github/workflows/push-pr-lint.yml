@@ -12,11 +12,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
     - name: golangci-lint
-      uses: golangci/golangci-lint-action@v6
+      uses: golangci/golangci-lint-action@v7
       with:
         skip-cache: true
         args: --config .golangci.yml --timeout 2m
-        version: v1.64.5
+        version: v2.1.2
     - name: Test
       run: go test ./...
   build:
