@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/metal-toolbox/bomservice/internal/model"
-	"github.com/metal-toolbox/rivets/ginjwt"
+	"github.com/metal-toolbox/rivets/v2/ginjwt"
 	"github.com/pkg/errors"
 )
 

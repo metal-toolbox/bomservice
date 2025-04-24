@@ -28,7 +28,7 @@ import (
 	"github.com/metal-toolbox/bomservice/internal/server"
 	mockstore "github.com/metal-toolbox/bomservice/internal/store/mock"
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
-	"github.com/metal-toolbox/rivets/ginjwt"
+	"github.com/metal-toolbox/rivets/v2/ginjwt"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 	"github.com/go-jose/go-jose/v4"

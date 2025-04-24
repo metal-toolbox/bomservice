@@ -9,7 +9,7 @@ import (
 	"github.com/metal-toolbox/bomservice/internal/metrics"
 	"github.com/metal-toolbox/bomservice/internal/store"
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
-	"github.com/metal-toolbox/rivets/ginjwt"
+	"github.com/metal-toolbox/rivets/v2/ginjwt"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 )
