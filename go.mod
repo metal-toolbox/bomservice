@@ -19,7 +19,7 @@ require (
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.19.0
 	github.com/stretchr/testify v1.10.0
-	github.com/tealeg/xlsx/v3 v3.3.11
+	github.com/tealeg/xlsx/v3 v3.3.13
 	golang.org/x/oauth2 v0.25.0
 )
 
