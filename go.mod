@@ -10,7 +10,7 @@ require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/go-jose/go-jose/v4 v4.0.5
 	github.com/golang/mock v1.6.0
-	github.com/hashicorp/go-retryablehttp v0.7.7
+	github.com/hashicorp/go-retryablehttp v0.7.8
 	github.com/metal-toolbox/fleetdb v1.20.3
 	github.com/metal-toolbox/rivets/v2 v2.1.2
 	github.com/pkg/errors v0.9.1
